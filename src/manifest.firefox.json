@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "Tab Grouper",
+  "version": "1.2.0",
+  "description": "Automatically groups tabs from the same domain into named tab groups to keep your browser organized.",
+
+  "icons": {
+    "16":  "icons/icon-16.png",
+    "48":  "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+
+  "action": {
+    "default_icon": {
+      "16":  "icons/icon-16.png",
+      "48":  "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    },
+    "default_title": "Tab Grouper",
+    "default_popup": "popup.html"
+  },
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+
+  "permissions": [
+    "tabs",
+    "tabGroups",
+    "storage"
+  ],
+
+  "host_permissions": [
+    "<all_urls>"
+  ],
+
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "tab-grouper@extension",
+      "strict_min_version": "139.0"
+    }
+  }
+}

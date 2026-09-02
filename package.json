@@ -1,0 +1,17 @@
+{
+  "name": "tab-grouper",
+  "version": "1.2.0",
+  "description": "Cross-browser extension that automatically groups tabs by domain.",
+  "private": true,
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build:chrome":  "node build.js chrome",
+    "build:firefox": "node build.js firefox",
+    "build":         "node build.js chrome firefox",
+    "package":       "npm run build && node package-zip.js"
+  },
+  "keywords": ["browser-extension", "tabs", "tab-groups", "chrome", "firefox"],
+  "license": "MIT"
+}

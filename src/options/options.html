@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tab Grouper — Settings</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+
+  <!-- ── Header ─────────────────────────────────────────────────────────── -->
+  <header class="header" role="banner">
+    <div class="header__inner">
+      <div class="header__brand">
+        <img src="../icons/icon-48.png" alt="Tab Grouper icon" class="header__logo" width="32" height="32" />
+        <div>
+          <h1 class="header__title">Tab Grouper</h1>
+          <p class="header__subtitle">Settings &amp; Preferences</p>
+        </div>
+      </div>
+
+      <!-- Save status indicator -->
+      <div class="save-status" id="saveStatus" role="status" aria-live="polite" aria-atomic="true">
+        <span class="save-status__dot"></span>
+        <span class="save-status__label" id="saveStatusLabel">All changes saved</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Main content ───────────────────────────────────────────────────── -->
+  <main class="main" role="main">
+    <div class="settings-grid">
+
+      <!-- ── Welcome Banner (shown only on ?welcome=true) ──────────────── -->
+      <section
+        class="card card--welcome"
+        id="welcomeBanner"
+        aria-labelledby="welcomeHeading"
+        hidden
+      >
+        <div class="welcome__hero">
+          <span class="welcome__emoji" aria-hidden="true">🎉</span>
+          <div>
+            <h2 class="welcome__title" id="welcomeHeading">Tab Grouper is Active &amp; Ready!</h2>
+            <p class="welcome__subtitle">Tabs organized automatically. Tailor your experience below.</p>
+          </div>
+        </div>
+
+        <ul class="welcome__features" aria-label="Key features">
+          <li>
+            <span class="welcome__feature-icon" aria-hidden="true">🗂️</span>
+            <span><strong>Smart Auto-Grouping:</strong> Tabs cluster automatically once a domain reaches your threshold.</span>
+          </li>
+          <li>
+            <span class="welcome__feature-icon" aria-hidden="true">🪗</span>
+            <span><strong>Accordion Focus:</strong> Inactive groups collapse automatically when you switch contexts.</span>
+          </li>
+          <li>
+            <span class="welcome__feature-icon" aria-hidden="true">⚡</span>
+            <span><strong>Toolbar Hub:</strong> Click the extension icon anytime for instant batch actions and window stashing.</span>
+          </li>
+        </ul>
+
+        <p class="welcome__guidance">
+          ⚙️ Adjust grouping thresholds, add excluded domains, or toggle auto-collapse in the settings below.
+        </p>
+        <p class="welcome__tip">
+          📌 <strong>Tip:</strong> Pin Tab Grouper to your browser toolbar for quick one-click access.
+        </p>
+
+        <div class="welcome__actions">
+          <button class="btn btn--primary" id="welcomeDismissBtn" type="button">
+            Got It
+          </button>
+          <button class="btn btn--ghost" id="welcomeScrollBtn" type="button">
+            Explore Settings
+          </button>
+        </div>
+      </section>
+
+      <!-- ── Card 1: General ────────────────────────────────────────────── -->
+      <section class="card" aria-labelledby="generalHeading" id="generalCard">
+        <div class="card__header">
+          <div class="card__icon" aria-hidden="true">⚙️</div>
+          <div>
+            <h2 class="card__title" id="generalHeading">General</h2>
+            <p class="card__desc">Core grouping behaviour</p>
+          </div>
+        </div>
+
+        <div class="card__body">
+
+          <!-- Auto-grouping toggle -->
+          <div class="setting-row">
+            <div class="setting-row__info">
+              <label class="setting-row__label" for="autoGroupEnabled">Auto-grouping</label>
+              <p class="setting-row__hint">Automatically group tabs when the threshold is reached</p>
+            </div>
+            <button
+              class="toggle"
+              id="autoGroupEnabled"
+              role="switch"
+              aria-checked="true"
+              aria-label="Enable auto-grouping"
+              type="button"
+            >
+              <span class="toggle__thumb"></span>
+            </button>
+          </div>
+
+          <div class="divider" role="separator"></div>
+
+          <!-- Auto-collapse toggle (Phase 3) -->
+          <div class="setting-row">
+            <div class="setting-row__info">
+              <label class="setting-row__label" for="autoCollapseInactive">Auto-collapse inactive groups</label>
+              <p class="setting-row__hint">Automatically collapses tab groups when you are working on tabs outside them</p>
+            </div>
+            <button
+              class="toggle"
+              id="autoCollapseInactive"
+              role="switch"
+              aria-checked="false"
+              aria-label="Enable auto-collapse for inactive groups"
+              type="button"
+            >
+              <span class="toggle__thumb"></span>
+            </button>
+          </div>
+
+          <div class="divider" role="separator"></div>
+
+          <!-- Tab threshold -->
+          <div class="setting-row setting-row--column">
+            <div class="setting-row__info">
+              <label class="setting-row__label" for="minTabThreshold">Grouping threshold</label>
+              <p class="setting-row__hint">
+                Minimum number of tabs from the same domain before a group is created
+              </p>
+            </div>
+
+            <div class="slider-control">
+              <input
+                type="range"
+                class="slider"
+                id="minTabThreshold"
+                min="2"
+                max="20"
+                step="1"
+                value="3"
+                aria-valuemin="2"
+                aria-valuemax="20"
+                aria-valuenow="3"
+                aria-label="Minimum tab threshold"
+              />
+              <div class="slider-control__meta">
+                <span class="slider-control__bound">2</span>
+                <output class="slider-control__value" id="thresholdValue" for="minTabThreshold">3 tabs</output>
+                <span class="slider-control__bound">20</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── Card 2: Excluded Domains ───────────────────────────────────── -->
+      <section class="card" aria-labelledby="exclusionsHeading">
+        <div class="card__header">
+          <div class="card__icon" aria-hidden="true">🚫</div>
+          <div>
+            <h2 class="card__title" id="exclusionsHeading">Excluded Domains</h2>
+            <p class="card__desc">Tabs on these domains will never be auto-grouped</p>
+          </div>
+        </div>
+
+        <div class="card__body">
+
+          <!-- Add domain input -->
+          <div class="add-domain">
+            <div class="add-domain__field">
+              <label class="sr-only" for="domainInput">Add a domain to exclude</label>
+              <input
+                type="text"
+                class="input"
+                id="domainInput"
+                placeholder="e.g. mail.google.com or slack.com"
+                autocomplete="off"
+                autocapitalize="none"
+                spellcheck="false"
+                aria-describedby="domainInputHint"
+                aria-label="Add a domain to exclude"
+              />
+              <p class="add-domain__hint" id="domainInputHint">Subdomains are matched automatically</p>
+            </div>
+            <button class="btn btn--primary" id="addDomainBtn" type="button" aria-label="Add domain to exclusion list">
+              <span aria-hidden="true">+</span> Add
+            </button>
+          </div>
+
+          <!-- Error message for invalid input -->
+          <p class="field-error" id="domainError" role="alert" aria-live="assertive" hidden></p>
+
+          <!-- Excluded domains tag list -->
+          <div class="tag-section">
+            <p class="tag-section__empty" id="emptyNotice" hidden>
+              No excluded domains added yet — all sites are eligible for grouping.
+            </p>
+            <ul class="tag-list" id="tagList" aria-label="Excluded domains" role="list"></ul>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── Card 3: Feedback & Community ──────────────────────────────── -->
+      <section class="card" aria-labelledby="feedbackHeading">
+        <div class="card__header">
+          <div class="card__icon" aria-hidden="true">💬</div>
+          <div>
+            <h2 class="card__title" id="feedbackHeading">Feedback &amp; Community</h2>
+            <p class="card__desc">Help shape the future of Tab Grouper</p>
+          </div>
+        </div>
+
+        <div class="card__body">
+          <p class="feedback__body">
+            Have an idea to improve Tab Grouper or encountered an issue? We'd love to hear from you.
+          </p>
+          <a
+            class="btn btn--primary feedback__btn"
+            href="https://forms.gle/DHjCJLYGPdBtfDtZA"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            Share Feedback / Request a Feature
+          </a>
+        </div>
+      </section>
+
+    </div><!-- /.settings-grid -->
+
+    <!-- ── Footer actions ─────────────────────────────────────────────────── -->
+    <div class="footer-actions">
+      <button class="btn btn--ghost" id="resetBtn" type="button">
+        Reset to Defaults
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ── Reset confirmation dialog ─────────────────────────────────────── -->
+  <div class="overlay" id="resetOverlay" role="dialog" aria-modal="true" aria-labelledby="resetDialogTitle" hidden>
+    <div class="dialog">
+      <h3 class="dialog__title" id="resetDialogTitle">Reset all settings?</h3>
+      <p class="dialog__body">
+        This will restore the default threshold, re-enable auto-grouping, and
+        clear your excluded domains list.
+      </p>
+      <div class="dialog__actions">
+        <button class="btn btn--ghost" id="resetCancelBtn" type="button">Cancel</button>
+        <button class="btn btn--danger" id="resetConfirmBtn" type="button">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
