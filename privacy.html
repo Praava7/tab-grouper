@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Privacy Policy for Tab Grouper browser extension — zero data collection, fully local operation." />
+  <title>Tab Grouper — Privacy Policy</title>
+  <style>
+    /* ── Design tokens ─────────────────────────────────────────────────── */
+    :root {
+      --font-sans:      'Inter', system-ui, -apple-system, BlinkMacSystemFont,
+                        'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-mono:      'JetBrains Mono', 'Fira Code', 'Cascadia Code',
+                        Consolas, monospace;
+
+      --color-bg:       hsl(220 20% 97%);
+      --color-surface:  hsl(0 0% 100%);
+      --color-border:   hsl(220 16% 90%);
+      --color-accent:   hsl(221 83% 58%);
+      --color-accent-s: hsl(215 80% 95%);
+      --color-success:  hsl(142 70% 42%);
+      --color-success-s:hsl(142 60% 95%);
+      --color-text-1:   hsl(220 25% 12%);
+      --color-text-2:   hsl(220 15% 40%);
+      --color-text-3:   hsl(220 12% 60%);
+
+      --shadow:         0 1px 3px hsla(220 30% 12% / .07),
+                        0 6px 20px hsla(220 30% 12% / .06);
+
+      --radius-sm: .375rem;
+      --radius-md: .75rem;
+      --radius-lg: 1rem;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-bg:       hsl(222 22% 10%);
+        --color-surface:  hsl(222 20% 14%);
+        --color-border:   hsl(222 16% 22%);
+        --color-accent:   hsl(221 83% 65%);
+        --color-accent-s: hsl(221 40% 20%);
+        --color-success:  hsl(142 65% 52%);
+        --color-success-s:hsl(142 40% 15%);
+        --color-text-1:   hsl(220 20% 94%);
+        --color-text-2:   hsl(220 12% 62%);
+        --color-text-3:   hsl(220 10% 46%);
+        --shadow:         0 1px 3px hsla(0 0% 0% / .25),
+                          0 6px 24px hsla(0 0% 0% / .20);
+      }
+    }
+
+    /* ── Reset ─────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+      background: var(--color-bg);
+      color: var(--color-text-1);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100dvh;
+      padding: 2.5rem 1rem 4rem;
+    }
+
+    /* ── Layout ────────────────────────────────────────────────────────── */
+    .page {
+      max-width: 780px;
+      margin-inline: auto;
+    }
+
+    /* ── Hero header ───────────────────────────────────────────────────── */
+    .hero {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .3rem .85rem;
+      background: var(--color-success-s);
+      color: var(--color-success);
+      border: 1px solid hsla(142 65% 42% / .25);
+      border-radius: 9999px;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero__title {
+      font-size: clamp(1.6rem, 4vw, 2.25rem);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      line-height: 1.2;
+      color: var(--color-text-1);
+      margin-bottom: .55rem;
+    }
+
+    .hero__subtitle {
+      font-size: 1.0625rem;
+      color: var(--color-text-2);
+      max-width: 540px;
+      margin-inline: auto;
+    }
+
+    .hero__meta {
+      margin-top: 1rem;
+      font-size: .8125rem;
+      color: var(--color-text-3);
+    }
+
+    /* ── Zero-collection callout ───────────────────────────────────────── */
+    .callout {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.1rem 1.25rem;
+      background: var(--color-success-s);
+      border: 1px solid hsla(142 65% 42% / .22);
+      border-left: 3.5px solid var(--color-success);
+      border-radius: var(--radius-md);
+      margin-bottom: 2rem;
+    }
+
+    .callout__icon {
+      font-size: 1.35rem;
+      flex-shrink: 0;
+      margin-top: .05rem;
+      user-select: none;
+    }
+
+    .callout__body {
+      font-size: .9375rem;
+      color: var(--color-text-1);
+      line-height: 1.55;
+    }
+
+    .callout__body strong {
+      display: block;
+      font-weight: 700;
+      margin-bottom: .2rem;
+      color: var(--color-success);
+    }
+
+    /* ── Card ──────────────────────────────────────────────────────────── */
+    .card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem 2rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+
+    .card__header {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-bottom: 1.1rem;
+      padding-bottom: .9rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .card__icon {
+      font-size: 1.35rem;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .card__title {
+      font-size: 1.0625rem;
+      font-weight: 700;
+      letter-spacing: -.015em;
+      color: var(--color-text-1);
+    }
+
+    /* ── Prose ─────────────────────────────────────────────────────────── */
+    p {
+      font-size: .9375rem;
+      color: var(--color-text-2);
+      line-height: 1.7;
+      margin-bottom: .85rem;
+    }
+
+    p:last-child { margin-bottom: 0; }
+
+    strong {
+      color: var(--color-text-1);
+      font-weight: 600;
+    }
+
+    /* ── Permission table ──────────────────────────────────────────────── */
+    .perm-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+      margin-top: .9rem;
+    }
+
+    .perm-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: baseline;
+      gap: .5rem .9rem;
+    }
+
+    .perm-item__name {
+      font-family: var(--font-mono);
+      font-size: .8125rem;
+      font-weight: 600;
+      padding: .15rem .55rem;
+      background: var(--color-accent-s);
+      color: var(--color-accent);
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+    }
+
+    .perm-item__desc {
+      font-size: .9rem;
+      color: var(--color-text-2);
+      line-height: 1.55;
+    }
+
+    /* ── Storage table ─────────────────────────────────────────────────── */
+    .storage-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: .9rem;
+      font-size: .9rem;
+    }
+
+    .storage-table th {
+      text-align: left;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--color-text-3);
+      padding: .45rem .75rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .storage-table td {
+      padding: .6rem .75rem;
+      color: var(--color-text-2);
+      line-height: 1.5;
+      border-bottom: 1px solid var(--color-border);
+      vertical-align: top;
+    }
+
+    .storage-table tr:last-child td { border-bottom: none; }
+
+    .storage-table td:first-child {
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      color: var(--color-accent);
+      white-space: nowrap;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: .1rem .45rem;
+      font-size: .72rem;
+      font-weight: 600;
+      border-radius: 9999px;
+    }
+
+    .tag--local {
+      background: var(--color-accent-s);
+      color: var(--color-accent);
+    }
+
+    .tag--never {
+      background: var(--color-success-s);
+      color: var(--color-success);
+    }
+
+    /* ── Feedback / contact ────────────────────────────────────────────── */
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .55rem 1.1rem;
+      font-family: var(--font-sans);
+      font-size: .875rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: background .15s, border-color .15s, color .15s;
+      cursor: pointer;
+    }
+
+    .btn--primary {
+      background: var(--color-accent);
+      color: #fff;
+    }
+
+    .btn--primary:hover {
+      background: hsl(221 83% 52%);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .btn--primary:hover { background: hsl(221 83% 72%); }
+    }
+
+    /* ── Footer ────────────────────────────────────────────────────────── */
+    .footer {
+      margin-top: 2.5rem;
+      text-align: center;
+      font-size: .8125rem;
+      color: var(--color-text-3);
+      line-height: 1.6;
+    }
+
+    .footer a {
+      color: var(--color-accent);
+      text-decoration: none;
+    }
+
+    .footer a:hover { text-decoration: underline; }
+
+    /* ── Responsive ────────────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .card { padding: 1.25rem 1rem; }
+      .storage-table th,
+      .storage-table td { padding: .45rem .5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page">
+
+    <!-- ── Hero ──────────────────────────────────────────────────────── -->
+    <header class="hero">
+      <div class="hero__badge">
+        <span aria-hidden="true">🔒</span>
+        Privacy Policy
+      </div>
+      <h1 class="hero__title">Tab Grouper Privacy Policy</h1>
+      <p class="hero__subtitle">
+        A plain-language explanation of how Tab Grouper handles (or, more
+        precisely, <em>does not handle</em>) your data.
+      </p>
+      <p class="hero__meta">
+        Effective date: September 2, 2026 &nbsp;·&nbsp;
+        Applies to Tab Grouper v1.2.0 and later
+      </p>
+    </header>
+
+    <!-- ── Zero-collection callout ───────────────────────────────────── -->
+    <div class="callout" role="note" aria-label="Zero data collection guarantee">
+      <span class="callout__icon" aria-hidden="true">✅</span>
+      <div class="callout__body">
+        <strong>Tab Grouper collects zero personal data.</strong>
+        No tab titles, URLs, browsing history, or any other information
+        are ever transmitted off your device. All processing happens
+        entirely inside your browser, in local memory, with nothing
+        leaving your machine.
+      </div>
+    </div>
+
+    <!-- ── Section 1: Overview ───────────────────────────────────────── -->
+    <section class="card" aria-labelledby="s1">
+      <div class="card__header">
+        <span class="card__icon" aria-hidden="true">📋</span>
+        <h2 class="card__title" id="s1">Overview</h2>
+      </div>
+      <p>
+        Tab Grouper is a browser extension for Google Chrome and Mozilla Firefox
+        that automatically organises your open tabs into named groups based on
+        their domain. It works entirely within your local browser session using
+        only the browser APIs listed below, and it does not communicate with any
+        external server, analytics service, or third-party infrastructure.
+      </p>
+      <p>
+        This policy describes what browser data the extension accesses, how
+        that data is used, and where it is stored. It applies to Tab Grouper
+        published on the Chrome Web Store and on Mozilla AMO (addons.mozilla.org).
+      </p>
+    </section>
+
+    <!-- ── Section 2: Data We Do NOT Collect ────────────────────────── -->
+    <section class="card" aria-labelledby="s2">
+      <div class="card__header">
+        <span class="card__icon" aria-hidden="true">🚫</span>
+        <h2 class="card__title" id="s2">Data We Do Not Collect</h2>
+      </div>
+      <p>Tab Grouper <strong>never</strong> collects, stores remotely, or transmits:</p>
+      <ul class="perm-list" role="list">
+        <li class="perm-item">
+          <span class="perm-item__name">Tab URLs</span>
+          <span class="perm-item__desc">
+            URLs are read transiently in memory to derive a grouping key (domain)
+            and are immediately discarded. They are never logged or sent anywhere.
+          </span>
+        </li>
+        <li class="perm-item">
+          <span class="perm-item__name">Tab titles</span>
+          <span class="perm-item__desc">
+            Titles are used only to name tab groups on-screen. They are never
+            stored persistently or transmitted.
+          </span>
+        </li>
+        <li class="perm-item">
+          <span class="perm-item__name">Browsing history</span>
+          <span class="perm-item__desc">
+            The extension has no access to browser history and does not read
+            previously visited pages.
+          </span>
+        </li>
+        <li class="perm-item">
+          <span class="perm-item__name">Personal identifiers</span>
+          <span class="perm-item__desc">
+            No names, email addresses, account credentials, or device identifiers
+            are ever accessed or processed.
+          </span>
+        </li>
+        <li class="perm-item">
+          <span class="perm-item__name">Telemetry &amp; analytics</span>
+          <span class="perm-item__desc">
+            Tab Grouper contains no analytics SDK, crash reporter, A/B testing
+            framework, or telemetry of any kind.
+          </span>
+        </li>
+        <li class="perm-item">
+          <span class="perm-item__name">Network requests</span>
+          <span class="perm-item__desc">
+            The extension makes no outbound network requests. There is no
+            update-check endpoint, no remote configuration server, and no
+            data-collection backend.
+          </span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ── Section 3: Local Storage ─────────────────────────────────── -->
+    <section class="card" aria-labelledby="s3">
+      <div class="card__header">
+        <span class="card__icon" aria-hidden="true">💾</span>
+        <h2 class="card__title" id="s3">Local Storage</h2>
+      </div>
+      <p>
+        Tab Grouper uses the browser's built-in
+        <code>chrome.storage.sync</code> (with a fallback to
+        <code>chrome.storage.local</code>) exclusively to persist your
+        <em>own</em> configuration choices on-device. The following keys
+        are written:
+      </p>
+
+      <table class="storage-table" aria-label="Local storage keys used by Tab Grouper">
+        <thead>
+          <tr>
+            <th scope="col">Key</th>
+            <th scope="col">What it stores</th>
+            <th scope="col">Transmitted?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>autoGroupEnabled</td>
+            <td>Whether automatic tab grouping is switched on (boolean).</td>
+            <td><span class="tag tag--never">Never</span></td>
+          </tr>
+          <tr>
+            <td>autoCollapseInactive</td>
+            <td>Whether inactive groups collapse automatically (boolean).</td>
+            <td><span class="tag tag--never">Never</span></td>
+          </tr>
+          <tr>
+            <td>minTabThreshold</td>
+            <td>Minimum number of same-domain tabs before a group is created (integer 2–20).</td>
+            <td><span class="tag tag--never">Never</span></td>
+          </tr>
+          <tr>
+            <td>excludedDomains</td>
+            <td>Domains the user has chosen to exclude from grouping (array of hostnames you type yourself).</td>
+            <td><span class="tag tag--never">Never</span></td>
+          </tr>
+          <tr>
+            <td>groupColors</td>
+            <td>Colour assignment preference for groups ("auto" or a specific palette).</td>
+            <td><span class="tag tag--never">Never</span></td>
+          </tr>
+          <tr>
+            <td>tabGroupStash</td>
+            <td>
+              A user-initiated snapshot of open tabs and groups created when
+              you click "Stash Window" in the popup. Stored only in
+              <code>chrome.storage.local</code> (device-local only, never
+              synced). Cleared or overwritten the next time you stash.
+            </td>
+            <td><span class="tag tag--never">Never</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p style="margin-top:1rem;">
+        <span class="tag tag--local">Local only</span>&nbsp;
+        All storage entries live exclusively on your device inside the
+        browser's sandboxed extension storage. They are never shared with the
+        extension developer or any third party.
+      </p>
+    </section>
+
+    <!-- ── Section 4: Permissions ────────────────────────────────────── -->
+    <section class="card" aria-labelledby="s4">
+      <div class="card__header">
+        <span class="card__icon" aria-hidden="true">🔑</span>
+        <h2 class="card__title" id="s4">Permissions &amp; Why They Are Needed</h2>
+      </div>
+      <p>
+        Tab Grouper requests the minimum set of permissions required to
+        perform its core function. No host permissions (<code>&lt;all_urls&gt;</code>
+        or similar) are requested — the extension never reads web page content.
+      </p>
+      <ul class="perm-list" role="list" aria-label="Extension permissions">
+        <li class="perm-item">
+          <span class="perm-item__name">tabs</span>
+          <span class="perm-item__desc">
+            Allows the extension to query open tabs (URL, title, window ID,
+            group ID) so it can compute domain-based grouping keys and listen
+            for tab lifecycle events (created, updated, removed, activated).
+            No page content is read.
+          </span>
+        </li>
+        <li class="perm-item">
+          <span class="perm-item__name">tabGroups</span>
+          <span class="perm-item__desc">
+            Allows the extension to create, update, query, and collapse tab
+            groups in the browser's tab strip. Used exclusively for grouping
+            and accordion-collapse features.
+          </span>
+        </li>
+        <li class="perm-item">
+          <span class="perm-item__name">storage</span>
+          <span class="perm-item__desc">
+            Allows reading and writing the user's own settings (listed in
+            Section 3) to the browser's local extension storage. No external
+            storage or cloud service is used.
+          </span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ── Section 5: Third-Party Services ──────────────────────────── -->
+    <section class="card" aria-labelledby="s5">
+      <div class="card__header">
+        <span class="card__icon" aria-hidden="true">🌐</span>
+        <h2 class="card__title" id="s5">Third-Party Services</h2>
+      </div>
+      <p>
+        Tab Grouper uses <strong>no third-party services</strong>. It loads no
+        external scripts, fonts, stylesheets, or images from a CDN or remote
+        server. All assets are bundled within the extension package itself.
+      </p>
+      <p>
+        The optional <em>Feedback &amp; Suggestions</em> button in the Options
+        page and popup opens a <strong>Google Form</strong> link in a new
+        browser tab. Clicking that link is entirely voluntary; the form is
+        hosted by Google and governed by
+        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+          Google's Privacy Policy</a>. Tab Grouper itself receives no data
+        from the form and has no access to any submitted responses.
+      </p>
+    </section>
+
+    <!-- ── Section 6: Children's Privacy ────────────────────────────── -->
+    <section class="card" aria-labelledby="s6">
+      <div class="card__header">
+        <span class="card__icon" aria-hidden="true">👶</span>
+        <h2 class="card__title" id="s6">Children's Privacy</h2>
+      </div>
+      <p>
+        Tab Grouper does not collect any data from anyone, including children
+        under 13 (COPPA) or under 16 (GDPR). Because no personal information
+        is ever gathered, there are no age-related data-handling requirements
+        applicable to this extension.
+      </p>
+    </section>
+
+    <!-- ── Section 7: Changes to This Policy ────────────────────────── -->
+    <section class="card" aria-labelledby="s7">
+      <div class="card__header">
+        <span class="card__icon" aria-hidden="true">📝</span>
+        <h2 class="card__title" id="s7">Changes to This Policy</h2>
+      </div>
+      <p>
+        If Tab Grouper's data practices ever change, this document will be
+        updated and the effective date at the top of the page will reflect
+        the revision. Because we collect no data, we do not expect this
+        policy to change materially. Any future version of the extension
+        that adds data collection would require an updated policy, renewed
+        store approval, and explicit user consent disclosures before
+        submission.
+      </p>
+    </section>
+
+    <!-- ── Section 8: Contact & Feedback ─────────────────────────────── -->
+    <section class="card" aria-labelledby="s8">
+      <div class="card__header">
+        <span class="card__icon" aria-hidden="true">💬</span>
+        <h2 class="card__title" id="s8">Contact &amp; Feedback</h2>
+      </div>
+      <p>
+        If you have a question about this privacy policy, a concern about how
+        Tab Grouper handles data, or a feature request, please use the
+        official feedback form:
+      </p>
+      <div class="contact-row">
+        <a
+          class="btn btn--primary"
+          href="https://forms.gle/DHjCJLYGPdBtfDtZA"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open feedback form in a new tab"
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.2"
+               stroke-linecap="round" stroke-linejoin="round"
+               aria-hidden="true">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          Submit a Question or Feedback
+        </a>
+      </div>
+    </section>
+
+    <!-- ── Footer ────────────────────────────────────────────────────── -->
+    <footer class="footer">
+      <p>
+        Tab Grouper &copy; 2026 &nbsp;·&nbsp;
+        <a href="https://forms.gle/DHjCJLYGPdBtfDtZA"
+           target="_blank" rel="noopener noreferrer">Feedback Form</a>
+      </p>
+      <p style="margin-top:.35rem;">
+        This policy covers the Chrome Web Store and Mozilla AMO releases of Tab Grouper.
+      </p>
+    </footer>
+
+  </div><!-- /.page -->
+
+</body>
+</html>
