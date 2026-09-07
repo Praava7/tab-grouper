@@ -221,7 +221,10 @@ function updateSliderDisplay(value) {
  */
 function renderTagList() {
   const { tagList, emptyNotice } = els;
-  tagList.innerHTML = '';
+
+  // SEC: use safe DOM removal instead of innerHTML = '' to maintain
+  // zero-innerHTML policy throughout the file.
+  while (tagList.firstChild) tagList.removeChild(tagList.firstChild);
 
   if (excludedDomains.length === 0) {
     emptyNotice.hidden = false;
@@ -255,7 +258,8 @@ function createTag(domain) {
   removeBtn.className = 'tag__remove';
   removeBtn.type = 'button';
   removeBtn.setAttribute('aria-label', `Remove ${domain} from exclusions`);
-  removeBtn.innerHTML = '&times;';
+  // SEC: textContent instead of innerHTML — '×' (U+00D7) renders identically to &times;
+  removeBtn.textContent = '\u00D7';
 
   removeBtn.addEventListener('click', () => removeDomain(domain, li));
 

@@ -1101,6 +1101,28 @@ console.log('[TabGrouper] v1.2 Service worker started. Listeners registered.');
 // core grouping/collapse logic above this point are untouched.
 
 /**
+ * SEC: URL scheme allowlist for session restore.
+ *
+ * Only http: and https: are permitted when opening tabs from a stored stash.
+ * Rejects javascript:, data:, file:, blob:, vbscript:, chrome:, about:,
+ * moz-extension:, and any other scheme that could execute code or access
+ * privileged browser pages.
+ *
+ * @param {unknown} url
+ * @returns {boolean}
+ */
+function isSafeUrl(url) {
+  if (typeof url !== 'string' || !url) return false;
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+  } catch {
+    // URL constructor throws on malformed strings — treat as unsafe
+    return false;
+  }
+}
+
+/**
  * Returns the windowId of the tab that sent a runtime message, falling back to
  * querying the currently focused window if the sender tab isn't available.
  *
@@ -1118,13 +1140,16 @@ async function resolveWindowId(sender) {
 }
 
 api.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  // Only handle messages we recognise — return false for anything else so
-  // other listeners (if any) can process unrecognised messages.
+  // SEC: validate message structure before any processing.
+  // Reject non-object messages, missing action fields, and non-string actions.
+  if (!msg || typeof msg !== 'object' || typeof msg.action !== 'string') return false;
+
+  // Explicit allowlist — any action not in this list is silently ignored.
   const handled = [
     'FORCE_GROUP_ALL', 'UNGROUP_ALL', 'TOGGLE_COLLAPSE_ALL',
     'STASH_WINDOW', 'RESTORE_SESSION',
   ];
-  if (!handled.includes(msg?.action)) return false;
+  if (!handled.includes(msg.action)) return false;
 
   // Wrap the async work in an IIFE so we can use sendResponse after awaiting.
   (async () => {
@@ -1234,10 +1259,15 @@ api.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
         // Open grouped tabs and re-group them
         for (const grp of tabGroupStash.groups) {
-          if (!grp.urls.length) continue;
+          if (!Array.isArray(grp.urls) || !grp.urls.length) continue;
 
           const tabIds = [];
           for (const url of grp.urls) {
+            // SEC: reject any URL that isn't plain http / https
+            if (!isSafeUrl(url)) {
+              console.warn('[TabGrouper] RESTORE_SESSION: blocked unsafe URL scheme:', url);
+              continue;
+            }
             try {
               const t = await api.tabs.create({ url, active: false });
               tabIds.push(t.id);
@@ -1264,6 +1294,11 @@ api.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
         // Open ungrouped tabs
         for (const url of tabGroupStash.ungroupedUrls) {
+          // SEC: reject any URL that isn't plain http / https
+          if (!isSafeUrl(url)) {
+            console.warn('[TabGrouper] RESTORE_SESSION: blocked unsafe URL scheme:', url);
+            continue;
+          }
           try {
             await api.tabs.create({ url, active: false });
           } catch {

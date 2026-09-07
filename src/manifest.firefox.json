@@ -30,10 +30,6 @@
     "storage"
   ],
 
-  "host_permissions": [
-    "<all_urls>"
-  ],
-
   "options_ui": {
     "page": "options/options.html",
     "open_in_tab": true
@@ -42,7 +38,10 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "tab-grouper@extension",
-      "strict_min_version": "139.0"
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
     }
   }
 }
